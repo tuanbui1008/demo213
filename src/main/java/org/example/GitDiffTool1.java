@@ -38,7 +38,12 @@ public class GitDiffTool1 {
                     .call();
             // Sao chép các tệp thay đổi vào một thư mục
             for (DiffEntry diffEntry : diffEntries) {
-                File file = new File("D:/demo/demo/save_file" + diffEntry.getNewPath());
+                if (diffEntry.getNewPath() == "/dev/null") {
+                    continue;
+                }
+                String[] path = diffEntry.getNewPath().split("/");
+                String pathFile = path[path.length - 1];
+                File file = new File("D:/save_file/" + pathFile);
                 file.getParentFile().mkdirs();
                 try (FileOutputStream fos = new FileOutputStream(file)) {
                     DiffFormatter diffFormatter = new DiffFormatter(fos);
